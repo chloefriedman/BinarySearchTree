@@ -14,7 +14,7 @@ public class BinarySearchTree<T extends Comparable<T>> implements BSTInterface<T
     // Creates an empty Binary Search Tree object
     public BinarySearchTree()
     {
-        
+        root = null;
     }
 
     // Returns true if this BST is empty; otherwise, returns false.
@@ -62,9 +62,14 @@ public class BinarySearchTree<T extends Comparable<T>> implements BSTInterface<T
     }
 
     // Returns a list of elements from a preorder traversal
+    //root left right
     public List<T> preorderTraverse()
     {
-        return null;
+        List<T> a = new ArrayList<>();
+        a.add(root.getInfo());
+        while(root.getLeft() )
+
+        
     }
 
     // Returns a list of elements from an inorder traversal
