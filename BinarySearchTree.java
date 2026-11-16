@@ -76,27 +76,33 @@ public class BinarySearchTree<T extends Comparable<T>> implements BSTInterface<T
         }
     }
 
+    private boolean contains(BinaryNode<T> c, T element)
+    {
+        if(c == null)
+        {
+            return false;
+        }
+        BinaryNode<T> current = c;
+        if(element.compareTo(current.getInfo()) == 0)
+        {
+            return true;
+        }
+        else if (element.compareTo(current.getInfo()) > 0)
+        {
+            return contains(c.getRight(), element);
+        }
+        else
+        {
+            return contains(c.getLeft(), element);
+        }
+    }
+
     // Returns true if this BST contains an element e such that 
     // e.compareTo(element) == 0; otherwise, returns false.
     public boolean contains (T element)
     {
         BinaryNode<T> current = root;
-        if(element.compareTo(current.getInfo()) == 0)
-        {
-            return true;
-        }
-       else if(current !=null)
-        {
-            boolean a = false;
-            while(!a)
-            {
-                 a = contains(current.getLeft().getInfo());
-                a = contains(current.getRight().getInfo());
-            }
-           
-        }
-      
-            return false;
+        return contains(current, element);
     }
 
     // Returns a graphical representation of the tree
