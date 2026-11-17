@@ -184,8 +184,86 @@ public class BinarySearchTree<T extends Comparable<T>> implements BSTInterface<T
     // Removes an element e from this BST such that e.compareTo(element) == 0
     public void remove (T element)
     {
-        BinaryNode<T> target = 
-        if(contains(element))
+        BinaryNode<T> target = null;
+        BinaryNode<T> current = root;
+        BinaryNode<T> previous = null;
+        boolean left = false;
+        if(contains(element) == false)
+        {
+            return;
+        }
+        if(current.getInfo().equals(element))
+        {
+           if(current.getLeft() == null)
+           {
+                if(current.getRight() == null)
+                {
+                    root = null;
+                }
+                else
+                {
+                    root = current.getRight();
+                    current.setRight(null);
+                }
+           }
+           else
+           {
+                 previous = current;
+                current = current.getLeft();
+                while(current.getRight() != null)
+                {
+                    previous = current;
+                    current = current.getRight();
+                }
+                root.setInfo(current.getInfo());
+                previous.setRight(null);
+
+           }
+        }
+        else
+        {
+            while(current.getInfo().compareTo(element) != 0)
+            {
+                if(element.compareTo(current.getInfo()) > 0)
+                {
+                    previous = current;
+                    current = current.getRight();
+                    left = false;
+                }
+                else
+                {
+                    previous = current;
+                    current = current.getLeft();
+                    left = true;
+                }
+            }
+            target = current;
+            if(target.getLeft() == null)
+            {
+                if(target.getRight() == null)
+                {
+                    if(left)
+                    {
+                        previous.setLeft(null);
+                    }
+                    else
+                    {
+                        previous.setRight(null);
+                    }
+                }
+                else
+                {
+                   if(left)
+                   {
+                        previous.setLeft(target.getRight());
+                   }
+                   else
+                   {
+                      previous.setRight(target.getRight());
+                   }
+                }
+            }
+        }
     }
 
     // Restructures this BST to be optimally balanced
