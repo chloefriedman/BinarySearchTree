@@ -312,29 +312,32 @@ public class BinarySearchTree<T extends Comparable<T>> implements BSTInterface<T
         else
         {
             root = null;
-            int middle = a.size()/2;
-            root = new BinaryNode<T>(a.get(middle));
+            balance(a, 0, a.size() - 1);
         }
-        balance(root, 0, a.size() - 1);
         
     }
     //get the high and low index of range. find the middle and add it to the list
-    private void balance(BinaryNode<T> r, low, high)
+    private void balance(List<T> a, int low, int high)
     {
         if(low == high)
         {
-            r.add(a.get(low));
+            add(a.get(low));
         }
         else if(low == high - 1)
         {
-            r.add(a.get(low));
-            r.add(a.get(high));
+            add(a.get(low));
+            add(a.get(high));
+        }
+        else if(low > high)
+        {
+            return;
         }
         else
         {
             int middle = (low + high)/2;
-            r.add(a.get(middle));
-            balance(r,low,middle - 1);
-            balance(r,middle + 1,high);
+            add(a.get(middle));
+            balance(a, low,middle - 1);
+            balance(a, middle + 1,high);
         }
+    }
 }
