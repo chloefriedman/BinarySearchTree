@@ -42,39 +42,54 @@ public class BinarySearchTree<T extends Comparable<T>> implements BSTInterface<T
         {
             root = new BinaryNode<T>(element);
         }
+        else if(contains(element))
+        {
+            return;
+        }
         else
         {
-            BinaryNode<T> current = root;
-            boolean a = true;
-            while(a)
-            {
-                if(element.compareTo(current.getInfo()) > 0)
-                {
-                    if(current.getRight() == null)
-                    {
-                        current.setRight(new BinaryNode<T>(element));
-                        a = false;
-                    }
-                    else
-                    {
-                        current = current.getRight();
-                    }
-                }
-                else if(element.compareTo(current.getInfo()) < 0)
-                {
-                    if(current.getLeft() == null)
-                    {
-                        current.setLeft(new BinaryNode<T>(element));
-                        a = false;
-                    }
-                    else
-                    {
-                        current = current.getLeft();
-                    } 
-                }
+            add(root,element);
+        }
+    }
 
+    private void add(BinaryNode<T> current, T element)
+    {
+        boolean left = false;
+        {
+            if(current.getInfo().compareTo(element)>0)
+               {
+                    left = true;
+               }
+            if(left)
+            {
+                if(current.getLeft()!=null)
+                {
+                    add(current.getLeft(),element);
+                }
+                else{
+                    current.setLeft(new BinaryNode<T>(element));
+                }
+            }
+            else
+            {
+                if(current.getRight()!=null)
+                {
+                    add(current.getRight(),element);
+                }
+                else{
+                    current.setRight(new BinaryNode<T>(element));
+                }
             }
         }
+
+    }
+
+    // Returns true if this BST contains an element e such that 
+    // e.compareTo(element) == 0; otherwise, returns false.
+    public boolean contains (T element)
+    {
+        BinaryNode<T> current = root;
+        return contains(current, element);
     }
 
     private boolean contains(BinaryNode<T> c, T element)
@@ -97,15 +112,6 @@ public class BinarySearchTree<T extends Comparable<T>> implements BSTInterface<T
             return contains(c.getLeft(), element);
         }
     }
-
-    // Returns true if this BST contains an element e such that 
-    // e.compareTo(element) == 0; otherwise, returns false.
-    public boolean contains (T element)
-    {
-        BinaryNode<T> current = root;
-        return contains(current, element);
-    }
-
     // Returns a graphical representation of the tree
     public String toString()
     {
@@ -249,55 +255,24 @@ public class BinarySearchTree<T extends Comparable<T>> implements BSTInterface<T
                     else
                     {
                         previous.setRight(null);
-                    }   
+                    }
                 }
                 else
                 {
-                    if(left)
-                    {
+                   if(left)
+                   {
                         previous.setLeft(target.getRight());
-                    }
-                    else
-                    {
-                        previous.setRight(target.getRight());
-                    }
-
+                   }
+                   else
+                   {
+                      previous.setRight(target.getRight());
+                   }
                 }
             }
-            else
-            {
-                    previous = current;
-                    current = target.getLeft();
-                    left = true;
-                    while(current.getRight() != null)
-                    {
-                        previous = current;
-                        current = current.getRight();
-                        left = false;
-                    }
-                    target.setInfo(current.getInfo());
-                    if(left)
-                    {
-                        target.setInfo(current.getInfo());
-                        target.setLeft(current.getLeft());
-                    }
-                    else
-                    {
-                        target.setInfo(current.getInfo());
-                        if(current.getLeft() != null)
-                        {
-                            previous.setRight((current.getLeft()));
-                        }
-                        current.setLeft(null);
-                        current.setRight(null);
-                    }
-            }
-
         }
-        }
-    
+    }
 
-    // Restructures this BST to be optimally balanced
+      // Restructures this BST to be optimally balanced
     //copy tree into an array with inorder traverse
     //set middle to root, then add all other elements in order
     public void balance()
